@@ -35,6 +35,21 @@ namespace Microsoft.Bot.Connector.Authentication
         private readonly ClientCredential clientCredential;
         private readonly OAuthConfiguration _oAuthConfig;
 
+        private class MyHttpClientFactory : IHttpClientFactory
+        {
+            private readonly HttpClient _httpClient;
+
+            public MyHttpClientFactory(HttpClient httpClient)
+            {
+                _httpClient = httpClient;
+            }
+
+            public HttpClient GetHttpClient()
+            {
+                return _httpClient;
+            }
+        };
+
         public AdalAuthenticator(ClientCredential clientCredential, OAuthConfiguration configurationOAuth, HttpClient customHttpClient = null)
         {
             this._oAuthConfig = configurationOAuth ?? throw new ArgumentNullException(nameof(configurationOAuth));
@@ -42,7 +57,8 @@ namespace Microsoft.Bot.Connector.Authentication
 
             if (customHttpClient != null)
             {
-                this.authContext = new AuthenticationContext(configurationOAuth.Authority, true, new TokenCache(), customHttpClient);
+                IHttpClientFactory httpClientFactory = new MyHttpClientFactory(customHttpClient);
+                this.authContext = new AuthenticationContext(configurationOAuth.Authority, true, new TokenCache(), httpClientFactory);
             }
             else
             {
