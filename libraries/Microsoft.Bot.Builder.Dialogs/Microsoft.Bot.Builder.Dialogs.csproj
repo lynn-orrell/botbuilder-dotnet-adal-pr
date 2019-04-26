@@ -21,6 +21,9 @@
 		<Summary>This library implements .NET Simple Dialog classes </Summary>
 	</PropertyGroup>
 
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+	  <DelaySign>false</DelaySign>
+	</PropertyGroup>
 	<ItemGroup>
 	  <Compile Remove="Prompts\BasicPrompt.cs" />
 	</ItemGroup>

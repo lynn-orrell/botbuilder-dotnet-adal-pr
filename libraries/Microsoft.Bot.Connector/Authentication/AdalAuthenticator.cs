@@ -48,7 +48,7 @@ namespace Microsoft.Bot.Connector.Authentication
             {
                 return _httpClient;
             }
-        };
+        }
 
         public AdalAuthenticator(ClientCredential clientCredential, OAuthConfiguration configurationOAuth, HttpClient customHttpClient = null)
         {
